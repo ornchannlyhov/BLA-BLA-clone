@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:logger/web.dart';
-import 'package:provider/provider.dart';
-import 'package:week_3_blabla_project/ui/provider/ride_pref_provider.dart';
 
 import '../../../../model/location/locations.dart';
 import '../../../../model/ride/ride_pref.dart';

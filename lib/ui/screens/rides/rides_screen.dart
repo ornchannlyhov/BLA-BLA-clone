@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:week_3_blabla_project/ui/provider/ride_pref_provider.dart';
-import 'package:week_3_blabla_project/service/ride_prefs_service.dart';
 import 'package:week_3_blabla_project/ui/screens/rides/widgets/ride_pref_modal.dart';
 import 'package:week_3_blabla_project/utils/animations_util.dart';
 import '../../../model/ride/ride_filter.dart';

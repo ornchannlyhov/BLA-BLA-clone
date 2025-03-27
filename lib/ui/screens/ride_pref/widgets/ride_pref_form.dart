@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:logger/web.dart';
+import 'package:provider/provider.dart';
+import 'package:week_3_blabla_project/ui/provider/ride_pref_provider.dart';
 
 import '../../../../model/location/locations.dart';
 import '../../../../model/ride/ride_pref.dart';
@@ -62,6 +65,33 @@ class _RidePrefFormState extends State<RidePrefForm> {
     }
   }
 
+  @override
+  void didUpdateWidget(covariant RidePrefForm oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.initialPreference == widget.initialPreference) {
+      // If the preferences are the same, we don't update the state
+      return;
+    } else {
+      setState(() {
+        departure = widget.initialPreference!.departure;
+        arrival = widget.initialPreference!.arrival;
+        departureDate = widget.initialPreference!.departureDate;
+        requestedSeats = widget.initialPreference!.requestedSeats;
+      });
+    }
+
+    // if (oldWidget.initialPreference == null && widget.initialPreference!= null) {
+    //   // If the preferences were not given, and now they are, we update the state
+    //   RidePreference current = widget.initialPreference!;
+    //   setState(() {
+    //     departure = current.departure;
+    //     arrival = current.arrival;
+    //     departureDate = current.departureDate;
+    //     requestedSeats = current.requestedSeats;
+    //   });
+    // }
+  }
   // ----------------------------------
   // Handle events
   // ----------------------------------
@@ -115,6 +145,8 @@ class _RidePrefFormState extends State<RidePrefForm> {
 
       // 3 - Callback withg the new preference
       widget.onSubmit(newPreference);
+      // print('object')
+      Logger().d('pref updated');
     }
   }
 

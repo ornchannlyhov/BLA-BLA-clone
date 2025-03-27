@@ -1,84 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:week_3_blabla_project/model/location/locations.dart';
+import 'package:week_3_blabla_project/ui/provider/location_provider.dart';
 
-import '../../../service/locations_service.dart';
 import '../../theme/theme.dart';
 
 ///
 /// This full-screen modal is in charge of providing (if confirmed) a selected location.
 ///
-class BlaLocationPicker extends StatefulWidget {
+class BlaLocationPicker extends StatelessWidget {
   final Location?
       initLocation; // The picker can be triguer with an existing location name
 
   const BlaLocationPicker({super.key, this.initLocation});
 
-  @override
-  State<BlaLocationPicker> createState() => _BlaLocationPickerState();
-}
-
-class _BlaLocationPickerState extends State<BlaLocationPicker> {
-  List<Location> filteredLocations = [];
-
-  // ----------------------------------
-  // Initialize the Form attributes
-  // ----------------------------------
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (widget.initLocation != null) {
-      String city = widget.initLocation!.name;
-      filteredLocations = LocationsService.instance.getLocationsFor(city);
-    }
-  }
-
-  void onBackSelected() {
+  void onBackSelected(BuildContext context) {
     Navigator.of(context).pop();
   }
 
-  void onLocationSelected(Location location) {
+  void onLocationSelected(Location location, BuildContext context) {
     Navigator.of(context).pop(location);
-  }
-
-  void onSearchChanged(String searchText) {
-    List<Location> newSelection = [];
-
-    if (searchText.length > 1) {
-      // We start to search from 2 characters only.
-      newSelection = LocationsService.instance.getLocationsFor(searchText);
-    }
-
-    setState(() {
-      filteredLocations = newSelection;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.only(
-          left: BlaSpacings.m, right: BlaSpacings.m, top: BlaSpacings.s),
-      child: Column(
-        children: [
-          // Top search Search bar
-          BlaSearchBar(
-            onBackPressed: onBackSelected,
-            onSearchChanged: onSearchChanged,
-          ),
-
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredLocations.length,
-              itemBuilder: (ctx, index) => LocationTile(
-                location: filteredLocations[index],
-                onSelected: onLocationSelected,
+        body: SafeArea(
+      child: Consumer<LocationProvider>(
+        builder: (context, locationProvider, child) => Padding(
+          padding: const EdgeInsets.only(
+              left: BlaSpacings.m, right: BlaSpacings.m, top: BlaSpacings.s),
+          child: Column(
+            children: [
+              // Top search Search bar
+              BlaSearchBar(
+                onBackPressed: () => onBackSelected(context),
+                onSearchChanged: (search) =>
+                    locationProvider.onSearchChanged(search),
               ),
-            ),
+
+              Expanded(
+                child: ListView.builder(
+                  itemCount: locationProvider.filteredLocations.length,
+                  itemBuilder: (ctx, index) => LocationTile(
+                    location: locationProvider.filteredLocations[index],
+                    onSelected: (location) =>
+                        onLocationSelected(location, context),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     ));
   }
@@ -153,6 +126,7 @@ class _BlaSearchBarState extends State<BlaSearchBar> {
 
   @override
   Widget build(BuildContext context) {
+    print('none');
     return Container(
       decoration: BoxDecoration(
         color: BlaColors.backgroundAccent,

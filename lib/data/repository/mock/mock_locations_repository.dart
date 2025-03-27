@@ -1,4 +1,4 @@
-import '../../model/location/locations.dart';
+import '../../../model/location/locations.dart';
 import '../locations_repository.dart';
 
 class MockLocationsRepository extends LocationsRepository {
@@ -21,7 +21,7 @@ class MockLocationsRepository extends LocationsRepository {
   );
 
   @override
-  List<Location> getLocations() {
+  Future<List<Location>> getLocations() async {
     return [phnomPenh, siemReap, sihanoukville, kampot, battambang];
   }
 }

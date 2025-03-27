@@ -20,42 +20,44 @@ class _RidePrefModalState extends State<RidePrefModal> {
   }
 
   void onSubmit(RidePreference newPreference) {
-    Navigator.of(context).pop(newPreference);
+    Navigator.of(context).pop<RidePreference>(newPreference);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(
-          left: BlaSpacings.m,
-          right: BlaSpacings.m,
-          top: BlaSpacings.s,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Back icon
-            BlaIconButton(onPressed: onBackSelected, icon: Icons.close),
-            SizedBox(height: BlaSpacings.m),
-
-            // Title
-            Text(
-              "Edit your search",
-              style: BlaTextStyles.title.copyWith(color: BlaColors.textNormal),
-            ),
-
-            // Form
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: RidePrefForm(
-                  initialPreference: widget.initialPreference,
-                  onSubmit: onSubmit,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: BlaSpacings.m,
+            right: BlaSpacings.m,
+            top: BlaSpacings.s,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Back icon
+              BlaIconButton(onPressed: onBackSelected, icon: Icons.close),
+              SizedBox(height: BlaSpacings.m),
+        
+              // Title
+              Text(
+                "Edit your search",
+                style: BlaTextStyles.title.copyWith(color: BlaColors.textNormal),
+              ),
+        
+              // Form
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: RidePrefForm(
+                    initialPreference: widget.initialPreference,
+                    onSubmit: onSubmit,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

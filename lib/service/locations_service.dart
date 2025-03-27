@@ -1,5 +1,5 @@
 import '../model/location/locations.dart';
-import '../repository/locations_repository.dart';
+import '../data/repository/locations_repository.dart';
 
 /// The location service is in charge of retrieving the list of locations
 class LocationsService {
@@ -30,13 +30,13 @@ class LocationsService {
     return _instance!;
   }
 
-  List<Location> getLocations() {
-    return repository.getLocations();
+  Future<List<Location>> getLocations() async {
+    return await repository.getLocations();
   }
 
-  List<Location> getLocationsFor(String text) {
-    return repository
-        .getLocations()
+  Future<List<Location>> getLocationsFor(String text) async {
+    final List<Location> locations = await repository.getLocations();
+    return locations
         .where((location) =>
             location.name.toUpperCase().contains(text.toUpperCase()))
         .toList();
